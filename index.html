@@ -310,7 +310,7 @@
 
   // ── Load config from Apps Script ──
   function loadConfigAndShow(email) {
-    fetch(APPS_SCRIPT_URL + '?action=getConfig')
+    fetch(APPS_SCRIPT_URL + '?action=getConfig&t=' + Date.now(), { mode: 'cors' })
       .then(function(r) { return r.json(); })
       .then(function(data) {
         CONFIG = data;
