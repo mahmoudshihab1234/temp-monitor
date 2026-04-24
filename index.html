@@ -14,6 +14,7 @@
     --teal-mid:  #b2dcd7;
     --warn:      #c0392b;
     --warn-soft: #fdf0ef;
+    --warn-mid:  #e8a09a;
     --ok:        #1a7a4a;
     --ok-soft:   #eaf5ee;
     --text:      #1a2630;
@@ -25,7 +26,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 40px; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 60px; }
 
   .header {
     background: var(--teal); color: white;
@@ -40,47 +41,30 @@
 
   /* Screens */
   .screen { display: none; }
-  .screen.active { display: block; }
+  #login-screen.active { display: flex; flex-direction: column; align-items: center; padding: 60px 24px; text-align: center; }
+  #processing-screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; gap: 16px; color: var(--muted); font-size: 14px; }
+  #denied-screen.active { display: flex; flex-direction: column; align-items: center; padding: 60px 24px; text-align: center; }
+  #app-screen.active { display: block; }
 
   /* Login */
-  #login-screen.active {
-    display: flex; flex-direction: column; align-items: center;
-    padding: 60px 24px; text-align: center;
-  }
   .login-logo { width: 80px; height: 80px; background: var(--teal); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 28px; box-shadow: 0 8px 28px rgba(10,124,110,0.3); }
   .login-title { font-size: 24px; font-weight: 600; margin-bottom: 10px; }
   .login-sub { font-size: 14px; color: var(--muted); margin-bottom: 40px; line-height: 1.6; max-width: 300px; }
-  .btn-ms-login {
-    display: flex; align-items: center; gap: 12px;
-    background: #fff; border: 1.5px solid var(--border);
-    border-radius: 12px; padding: 16px 28px;
-    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500;
-    color: var(--text); cursor: pointer;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-    transition: box-shadow 0.15s, transform 0.1s;
-  }
+  .btn-ms-login { display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 28px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text); cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,0.1); transition: box-shadow 0.15s, transform 0.1s; }
   .btn-ms-login:active { transform: scale(0.98); }
 
-  /* Processing */
-  #processing-screen.active {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; min-height: 70vh; gap: 16px;
-    color: var(--muted); font-size: 14px;
-  }
-  .big-spinner { width: 40px; height: 40px; border: 3px solid var(--teal-mid); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
   /* Denied */
-  #denied-screen.active {
-    display: flex; flex-direction: column; align-items: center;
-    padding: 60px 24px; text-align: center;
-  }
   .denied-icon { font-size: 60px; margin-bottom: 20px; }
   .denied-title { font-size: 22px; font-weight: 600; color: var(--warn); margin-bottom: 10px; }
   .denied-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 28px; }
   .btn-retry { padding: 12px 28px; background: var(--teal); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; }
 
-  /* App */
+  /* Spinner */
+  .big-spinner { width: 40px; height: 40px; border: 3px solid var(--teal-mid); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Cards */
   .card { background: var(--card); margin: 16px; border-radius: var(--radius); padding: 20px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); border: 1px solid var(--border); }
   .section-label { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
   .field { margin-bottom: 18px; }
@@ -99,36 +83,57 @@
   input[readonly] { background: var(--teal-soft); color: var(--teal-dark); border-color: var(--teal-mid); font-weight: 500; }
 
   .verified-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; background: var(--ok-soft); color: var(--ok); border: 1px solid #9dd0b5; padding: 4px 10px; border-radius: 20px; margin-top: 6px; font-weight: 500; }
-  .range-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-family: 'DM Mono', monospace; background: var(--teal-soft); color: var(--teal-dark); border: 1px solid var(--teal-mid); padding: 4px 10px; border-radius: 20px; margin-top: 7px; }
-  .range-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
 
+  /* Shift pills */
   .shift-group { display: flex; gap: 10px; }
-  .shift-pill { flex: 1; padding: 10px; border: 1.5px solid var(--border); border-radius: 8px; text-align: center; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; background: #fff; color: var(--muted); }
+  .shift-pill { flex: 1; padding: 12px; border: 1.5px solid var(--border); border-radius: 8px; text-align: center; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.15s; background: #fff; color: var(--muted); }
   .shift-pill.selected { background: var(--teal); border-color: var(--teal); color: white; }
-  .shift-pill.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+
+  /* Reading fields */
+  .reading-group { background: var(--bg); border-radius: 10px; padding: 16px; margin-bottom: 14px; border: 1px solid var(--border); }
+  .reading-group:last-child { margin-bottom: 0; }
+  .reading-group-title { font-size: 12px; font-weight: 600; color: var(--teal-dark); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.8px; display: flex; align-items: center; gap: 6px; }
+  .reading-group-title .icon { font-size: 16px; }
 
   .temp-wrapper { position: relative; }
   .temp-status { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; }
   input.temp-ok   { border-color: var(--ok);  background: var(--ok-soft); }
   input.temp-warn { border-color: var(--warn); background: var(--warn-soft); }
 
-  .oor-banner { display: none; background: var(--warn-soft); border: 1px solid #e8a09a; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 13px; color: var(--warn); font-weight: 500; }
-  .oor-banner.show { display: block; }
+  .range-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-family: 'DM Mono', monospace; background: var(--teal-soft); color: var(--teal-dark); border: 1px solid var(--teal-mid); padding: 4px 10px; border-radius: 20px; margin-top: 6px; }
+  .range-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
 
-  .btn-submit { width: 100%; padding: 15px; background: var(--teal); color: white; border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.15s, transform 0.1s; }
+  /* Out of range banner - DRAMATIC */
+  .oor-banner {
+    display: none;
+    background: var(--warn);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 8px;
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    animation: pulse 1s infinite;
+  }
+  .oor-banner.show { display: block; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.8; } }
+
+  /* Submit */
+  .btn-submit { width: 100%; padding: 16px; background: var(--teal); color: white; border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600; cursor: pointer; transition: background 0.15s, transform 0.1s; letter-spacing: 0.3px; }
   .btn-submit:active { transform: scale(0.98); background: var(--teal-dark); }
   .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-  .status-box { display: none; margin: 0 16px; padding: 14px 18px; border-radius: var(--radius); font-size: 14px; font-weight: 500; text-align: center; }
+  .status-box { display: none; margin: 0 16px; padding: 16px 20px; border-radius: var(--radius); font-size: 15px; font-weight: 500; text-align: center; }
   .status-box.success { display: block; background: var(--ok-soft); border: 1px solid #9dd0b5; color: var(--ok); }
-  .status-box.error   { display: block; background: var(--warn-soft); border: 1px solid #e8a09a; color: var(--warn); }
+  .status-box.error   { display: block; background: var(--warn-soft); border: 1px solid var(--warn-mid); color: var(--warn); }
 
   .hidden { display: none !important; }
-  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
 
   .date-row { display: flex; gap: 8px; align-items: flex-end; }
   .date-row input { flex: 1; }
   .btn-today { padding: 11px 14px; background: var(--teal-soft); color: var(--teal-dark); border: 1.5px solid var(--teal-mid); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+
+  .divider { height: 1px; background: var(--border); margin: 4px 0 16px; }
 </style>
 </head>
 <body>
@@ -174,36 +179,28 @@
 <!-- App -->
 <div id="app-screen" class="screen">
 
+  <!-- Step 1: Identity + Unit + Shift -->
   <div class="card">
-    <div class="section-label">Step 1 — Location</div>
+    <div class="section-label">Step 1 — Who & Where</div>
+
     <div class="field">
       <label>Signed in as</label>
       <input type="text" id="inp-email-display" readonly>
       <div class="verified-badge">🔒 Identity Verified via Microsoft</div>
     </div>
+
+    <div class="field">
+      <label for="inp-staffid">Staff ID <span class="req">*</span></label>
+      <input type="text" id="inp-staffid" placeholder="e.g. 12345" inputmode="numeric">
+    </div>
+
     <div class="field">
       <label for="sel-unit">Unit <span class="req">*</span></label>
       <select id="sel-unit" onchange="onUnitChange()">
         <option value="">— Select unit —</option>
       </select>
     </div>
-    <div class="field hidden" id="field-equipment">
-      <label for="sel-equipment">Equipment <span class="req">*</span></label>
-      <select id="sel-equipment" onchange="onEquipmentChange()">
-        <option value="">— Select equipment —</option>
-      </select>
-    </div>
-  </div>
 
-  <div class="card hidden" id="card-shift">
-    <div class="section-label">Step 2 — Shift & Date</div>
-    <div class="field">
-      <label>Shift <span class="req">*</span></label>
-      <div class="shift-group">
-        <div class="shift-pill" id="pill-A1" onclick="selectShift('A1')">A1 · Morning</div>
-        <div class="shift-pill" id="pill-B1" onclick="selectShift('B1')">B1 · Evening</div>
-      </div>
-    </div>
     <div class="field">
       <label for="inp-date">Date <span class="req">*</span></label>
       <div class="date-row">
@@ -211,33 +208,23 @@
         <button class="btn-today" onclick="setToday()">Today</button>
       </div>
     </div>
+
     <div class="field">
-      <label for="inp-staffid">Staff ID <span class="req">*</span></label>
-      <input type="text" id="inp-staffid" placeholder="e.g. 12345" inputmode="numeric">
+      <label>Shift <span class="req">*</span></label>
+      <div class="shift-group">
+        <div class="shift-pill" id="pill-A1" onclick="selectShift('A1')">☀️ A1 · Morning</div>
+        <div class="shift-pill" id="pill-B1" onclick="selectShift('B1')">🌙 B1 · Evening</div>
+      </div>
     </div>
   </div>
 
-  <div class="card hidden" id="card-temp">
-    <div class="section-label">Step 3 — Reading</div>
-    <div class="field">
-      <label for="inp-temp" id="lbl-temp">Temperature (°C) <span class="req">*</span></label>
-      <div class="temp-wrapper">
-        <input type="number" id="inp-temp" placeholder="Enter reading" step="0.1" inputmode="decimal" oninput="onTempInput()">
-        <span class="temp-status" id="temp-status"></span>
-      </div>
-      <div class="range-badge"><span class="dot"></span><span id="range-text">Normal range: —</span></div>
-      <div class="oor-banner" id="oor-banner">⚠️ Reading is outside normal range — please double-check before submitting.</div>
-    </div>
-    <div class="field hidden" id="field-humidity">
-      <label for="inp-humidity">Humidity (%) <span class="req">*</span></label>
-      <div class="temp-wrapper">
-        <input type="number" id="inp-humidity" placeholder="Enter humidity" step="1" inputmode="decimal" min="0" max="100" oninput="onHumidityInput()">
-        <span class="temp-status" id="hum-status"></span>
-      </div>
-      <div class="range-badge"><span class="dot"></span><span>Normal: ≤ 60%</span></div>
-    </div>
+  <!-- Step 2: Readings (built dynamically) -->
+  <div class="card hidden" id="card-readings">
+    <div class="section-label">Step 2 — Readings</div>
+    <div id="readings-container"></div>
   </div>
 
+  <!-- Submit -->
   <div class="card hidden" id="card-submit">
     <button class="btn-submit" id="btn-submit" onclick="submitForm()">Submit Reading</button>
   </div>
@@ -247,50 +234,35 @@
 </div>
 
 <script>
-  // ── Config ──
-  const CLIENT_ID      = '219fd90f-4c4b-474d-ae7d-a17f71ecc511';
-  const TENANT_ID      = '1bbc68f6-abcf-4283-92d7-5bb0a7c3c84b';
+  const CLIENT_ID       = '219fd90f-4c4b-474d-ae7d-a17f71ecc511';
+  const TENANT_ID       = '1bbc68f6-abcf-4283-92d7-5bb0a7c3c84b';
   const ALLOWED_DOMAINS = ['almoosahospital.com.sa', 'almoosahealth.com.sa'];
+  const REDIRECT_URI    = 'https://mahmoudshihab1234.github.io/temp-monitor/index.html';
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwS1tgBpY9CV2tBDWdQsp-UQGHVzrPnuRLGC2UqD-775wTKxpsZVSh0Hot9NhcUgvqJ/exec';
-  const REDIRECT_URI = 'https://mahmoudshihab1234.github.io/temp-monitor/index.html';
 
   let currentUserEmail = '';
   let CONFIG = [];
-  let selectedEquipment = null;
-  let selectedShift = null;
-
-  // ── Equipment Config (hardcoded for prototype) ──
-  CONFIG = [
-    { id: 'EQ-L3-001', hospital: 'ARH', unit: 'L3 LTC', type: 'Room Temp',    label: 'Room Temperature',  min: 18,  max: 25,  shifts: ['A1'],       hasHumidity: true,  active: true },
-    { id: 'EQ-L3-002', hospital: 'ARH', unit: 'L3 LTC', type: 'Fridge Temp',  label: 'Fridge Temperature', min: 2,   max: 8,   shifts: ['A1','B1'],  hasHumidity: false, active: true },
-    { id: 'EQ-L3-003', hospital: 'ARH', unit: 'L3 LTC', type: 'Freezer Temp', label: 'Freezer Temperature',min: -25, max: -15, shifts: ['A1','B1'],  hasHumidity: false, active: true },
-    { id: 'EQ-L5-001', hospital: 'ARH', unit: 'L5 LTC', type: 'Room Temp',    label: 'Room Temperature',  min: 18,  max: 25,  shifts: ['A1'],       hasHumidity: true,  active: true },
-    { id: 'EQ-L5-002', hospital: 'ARH', unit: 'L5 LTC', type: 'Fridge Temp',  label: 'Fridge 1',          min: 2,   max: 8,   shifts: ['A1','B1'],  hasHumidity: false, active: true },
-    { id: 'EQ-L5-003', hospital: 'ARH', unit: 'L5 LTC', type: 'Fridge Temp',  label: 'Fridge 2',          min: 2,   max: 8,   shifts: ['A1','B1'],  hasHumidity: false, active: true },
-    { id: 'EQ-L5-004', hospital: 'ARH', unit: 'L5 LTC', type: 'Freezer Temp', label: 'Freezer Temperature',min: -25, max: -15, shifts: ['A1','B1'],  hasHumidity: false, active: true },
-    { id: 'EQ-L8-001', hospital: 'ARH', unit: 'L8 LTC', type: 'Fridge Temp',  label: 'Fridge Temperature', min: 2,   max: 8,   shifts: ['A1','B1'],  hasHumidity: false, active: true }
-  ];
+  let selectedUnit  = '';
+  let selectedShift = '';
 
   // ── On load ──
   window.onload = function() {
-    const hash = window.location.hash;
+    var hash = window.location.hash;
     if (hash && hash.includes('id_token')) {
       showScreen('processing-screen');
-      const params = parseHash(hash);
-      const token = params['id_token'];
+      var params  = parseHash(hash);
+      var token   = params['id_token'];
       if (token) {
-        const payload = parseJwt(token);
-        const email = (payload.preferred_username || payload.email || payload.upn || '').toLowerCase();
+        var payload = parseJwt(token);
+        var email   = (payload.preferred_username || payload.email || payload.upn || '').toLowerCase();
         history.replaceState(null, '', REDIRECT_URI);
-        if (email && ALLOWED_DOMAINS.some(function(d) { return email.endsWith('@' + d); })) {
+        if (isAllowed(email)) {
           currentUserEmail = email;
-          showApp(email);
+          loadConfigAndShow(email);
         } else {
           showScreen('denied-screen');
         }
-      } else {
-        showScreen('login-screen');
-      }
+      } else { showScreen('login-screen'); }
     } else if (hash && hash.includes('error')) {
       history.replaceState(null, '', REDIRECT_URI);
       showScreen('login-screen');
@@ -299,24 +271,24 @@
     }
   };
 
+  function isAllowed(email) {
+    return ALLOWED_DOMAINS.some(function(d) { return email.endsWith('@' + d); });
+  }
+
   function signIn() {
-    const nonce = Math.random().toString(36).substring(2);
-    const params = new URLSearchParams({
-      client_id:     CLIENT_ID,
-      response_type: 'id_token',
-      redirect_uri:  REDIRECT_URI,
-      scope:         'openid profile email',
-      response_mode: 'fragment',
-      nonce:         nonce,
-      prompt:        'select_account'
+    var params = new URLSearchParams({
+      client_id: CLIENT_ID, response_type: 'id_token',
+      redirect_uri: REDIRECT_URI, scope: 'openid profile email',
+      response_mode: 'fragment', nonce: Math.random().toString(36).substring(2),
+      prompt: 'select_account'
     });
     window.location.href = 'https://login.microsoftonline.com/' + TENANT_ID + '/oauth2/v2.0/authorize?' + params.toString();
   }
 
   function parseHash(hash) {
-    const result = {};
+    var result = {};
     hash.replace(/^#/, '').split('&').forEach(function(part) {
-      const eq = part.indexOf('=');
+      var eq = part.indexOf('=');
       if (eq > -1) result[decodeURIComponent(part.slice(0, eq))] = decodeURIComponent(part.slice(eq + 1));
     });
     return result;
@@ -324,7 +296,7 @@
 
   function parseJwt(token) {
     try {
-      const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      var base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
       return JSON.parse(decodeURIComponent(atob(base64).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join('')));
@@ -336,7 +308,35 @@
     document.getElementById(id).classList.add('active');
   }
 
-  function showApp(email) {
+  // ── Load config from Apps Script ──
+  function loadConfigAndShow(email) {
+    fetch(APPS_SCRIPT_URL + '?action=getConfig')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        CONFIG = data;
+        initApp(email);
+      })
+      .catch(function() {
+        // Use fallback if fetch fails
+        CONFIG = getFallbackConfig();
+        initApp(email);
+      });
+  }
+
+  function getFallbackConfig() {
+    return [
+      { unit: 'L3 LTC',  type: 'Room',   label: 'Medication Room',    min: 18, max: 25, shifts: ['A1'],      hasHumidity: true,  active: true },
+      { unit: 'L3 LTC',  type: 'Fridge', label: 'Medication Fridge',  min: 2,  max: 8,  shifts: ['A1','B1'], hasHumidity: false, active: true },
+      { unit: 'L4 RICU', type: 'Room',   label: 'Medication Room',    min: 18, max: 25, shifts: ['A1'],      hasHumidity: true,  active: true },
+      { unit: 'L4 RICU', type: 'Fridge', label: 'Medication Fridge',  min: 2,  max: 8,  shifts: ['A1','B1'], hasHumidity: false, active: true },
+      { unit: 'L5 LTC',  type: 'Room',   label: 'Medication Room',    min: 18, max: 25, shifts: ['A1'],      hasHumidity: true,  active: true },
+      { unit: 'L5 LTC',  type: 'Fridge', label: 'Medication Fridge',  min: 2,  max: 8,  shifts: ['A1','B1'], hasHumidity: false, active: true },
+      { unit: 'L6 LTC',  type: 'Room',   label: 'Medication Room',    min: 18, max: 25, shifts: ['A1'],      hasHumidity: true,  active: true },
+      { unit: 'L6 LTC',  type: 'Fridge', label: 'Medication Fridge',  min: 2,  max: 8,  shifts: ['A1','B1'], hasHumidity: false, active: true }
+    ];
+  }
+
+  function initApp(email) {
     document.getElementById('inp-email-display').value = email;
     populateUnits();
     setToday();
@@ -344,128 +344,264 @@
   }
 
   function populateUnits() {
-    const units = [...new Set(CONFIG.filter(function(e) { return e.active; }).map(function(e) { return e.unit; }))];
-    const sel = document.getElementById('sel-unit');
+    var units = [];
+    CONFIG.filter(function(e) { return e.active; }).forEach(function(e) {
+      if (units.indexOf(e.unit) === -1) units.push(e.unit);
+    });
+    var sel = document.getElementById('sel-unit');
     sel.innerHTML = '<option value="">— Select unit —</option>';
     units.forEach(function(u) {
-      const opt = document.createElement('option');
+      var opt = document.createElement('option');
       opt.value = u; opt.textContent = u; sel.appendChild(opt);
     });
   }
 
   function onUnitChange() {
-    const unit = document.getElementById('sel-unit').value;
-    const eqSel = document.getElementById('sel-equipment');
-    eqSel.innerHTML = '<option value="">— Select equipment —</option>';
-    selectedEquipment = null; selectedShift = null;
-    hideFormCards();
-    if (!unit) { document.getElementById('field-equipment').classList.add('hidden'); return; }
-    CONFIG.filter(function(e) { return e.unit === unit && e.active; }).forEach(function(e) {
-      const opt = document.createElement('option');
-      opt.value = e.id; opt.textContent = e.label + ' (' + e.type + ')'; eqSel.appendChild(opt);
-    });
-    document.getElementById('field-equipment').classList.remove('hidden');
-  }
-
-  function onEquipmentChange() {
-    const eqId = document.getElementById('sel-equipment').value;
-    selectedEquipment = CONFIG.find(function(e) { return e.id === eqId; }) || null;
-    selectedShift = null;
-    hideFormCards();
-    if (!selectedEquipment) return;
-
-    ['pill-A1','pill-B1'].forEach(function(id) { document.getElementById(id).classList.remove('selected','disabled'); });
-    if (!selectedEquipment.shifts.includes('A1')) document.getElementById('pill-A1').classList.add('disabled');
-    if (!selectedEquipment.shifts.includes('B1')) document.getElementById('pill-B1').classList.add('disabled');
-    if (selectedEquipment.shifts.length === 1) selectShift(selectedEquipment.shifts[0]);
-
-    document.getElementById('range-text').textContent = 'Normal: ' + selectedEquipment.min + '°C to ' + selectedEquipment.max + '°C';
-    document.getElementById('lbl-temp').innerHTML = selectedEquipment.type + ' (°C) <span class="req">*</span>';
-    document.getElementById('inp-temp').value = '';
-    document.getElementById('temp-status').textContent = '';
-    document.getElementById('inp-temp').className = '';
-    document.getElementById('oor-banner').classList.remove('show');
-
-    if (selectedEquipment.hasHumidity) { document.getElementById('field-humidity').classList.remove('hidden'); }
-    else { document.getElementById('field-humidity').classList.add('hidden'); document.getElementById('inp-humidity').value = ''; }
-
-    document.getElementById('card-shift').classList.remove('hidden');
-    checkShowTempCard();
-  }
-
-  function selectShift(shift) {
-    if (!selectedEquipment || !selectedEquipment.shifts.includes(shift)) return;
-    selectedShift = shift;
-    document.getElementById('pill-A1').classList.toggle('selected', shift === 'A1');
-    document.getElementById('pill-B1').classList.toggle('selected', shift === 'B1');
-    checkShowTempCard();
-  }
-
-  function checkShowTempCard() {
-    if (selectedShift && selectedEquipment) {
-      document.getElementById('card-temp').classList.remove('hidden');
-      document.getElementById('card-submit').classList.remove('hidden');
-    }
-  }
-
-  function onTempInput() {
-    const val = parseFloat(document.getElementById('inp-temp').value);
-    const inp = document.getElementById('inp-temp');
-    const status = document.getElementById('temp-status');
-    const banner = document.getElementById('oor-banner');
-    if (isNaN(val) || !selectedEquipment) { inp.className = ''; status.textContent = ''; banner.classList.remove('show'); return; }
-    const ok = val >= selectedEquipment.min && val <= selectedEquipment.max;
-    inp.className = ok ? 'temp-ok' : 'temp-warn';
-    status.textContent = ok ? '✓' : '⚠️';
-    banner.classList.toggle('show', !ok);
-  }
-
-  function onHumidityInput() {
-    const val = parseFloat(document.getElementById('inp-humidity').value);
-    document.getElementById('hum-status').textContent = isNaN(val) ? '' : (val <= 60 ? '✓' : '⚠️');
-  }
-
-  function setToday() {
-    const t = new Date();
-    const el = document.getElementById('inp-date');
-    if (el) el.value = t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
-  }
-
-  function hideFormCards() {
-    ['card-shift','card-temp','card-submit'].forEach(function(id) { document.getElementById(id).classList.add('hidden'); });
+    selectedUnit  = document.getElementById('sel-unit').value;
+    selectedShift = '';
+    document.getElementById('pill-A1').classList.remove('selected');
+    document.getElementById('pill-B1').classList.remove('selected');
+    document.getElementById('card-readings').classList.add('hidden');
+    document.getElementById('card-submit').classList.add('hidden');
     document.getElementById('status-box').className = 'status-box';
   }
 
+  function selectShift(shift) {
+    selectedShift = shift;
+    document.getElementById('pill-A1').classList.toggle('selected', shift === 'A1');
+    document.getElementById('pill-B1').classList.toggle('selected', shift === 'B1');
+    if (selectedUnit) buildReadingsForm();
+  }
+
+  // ── Build the readings form dynamically ──
+  function buildReadingsForm() {
+    var container = document.getElementById('readings-container');
+    container.innerHTML = '';
+
+    var unitConfig = CONFIG.filter(function(e) {
+      return e.unit === selectedUnit && e.active && e.shifts.indexOf(selectedShift) > -1;
+    });
+
+    var roomItems    = unitConfig.filter(function(e) { return e.type.toLowerCase() === 'room'; });
+    var fridgeItems  = unitConfig.filter(function(e) { return e.type.toLowerCase() === 'fridge'; });
+    var freezerItems = unitConfig.filter(function(e) { return e.type.toLowerCase() === 'freezer'; });
+
+    // Room temp (A1 only)
+    roomItems.forEach(function(item) {
+      container.appendChild(buildReadingGroup('🌡️', item.label, 'room', 0, item));
+    });
+
+    // Fridges
+    fridgeItems.forEach(function(item, i) {
+      container.appendChild(buildReadingGroup('🧊', item.label, 'fridge', i, item));
+    });
+
+    // Freezers
+    freezerItems.forEach(function(item, i) {
+      container.appendChild(buildReadingGroup('❄️', item.label, 'freezer', i, item));
+    });
+
+    document.getElementById('card-readings').classList.remove('hidden');
+    document.getElementById('card-submit').classList.remove('hidden');
+  }
+
+  function buildReadingGroup(icon, label, type, index, item) {
+    var id = type + '_' + index;
+    var div = document.createElement('div');
+    div.className = 'reading-group';
+
+    var titleDiv = document.createElement('div');
+    titleDiv.className = 'reading-group-title';
+    titleDiv.innerHTML = '<span class="icon">' + icon + '</span>' + label;
+    div.appendChild(titleDiv);
+
+    // Temperature field
+    var tempField = document.createElement('div');
+    tempField.className = 'field';
+    tempField.style.marginBottom = item.hasHumidity ? '14px' : '0';
+
+    var tempLabel = document.createElement('label');
+    tempLabel.innerHTML = 'Temperature (°C) <span class="req">*</span>';
+    tempField.appendChild(tempLabel);
+
+    var tempWrapper = document.createElement('div');
+    tempWrapper.className = 'temp-wrapper';
+
+    var tempInput = document.createElement('input');
+    tempInput.type = 'number';
+    tempInput.step = '0.1';
+    tempInput.inputMode = 'decimal';
+    tempInput.placeholder = 'Enter temperature';
+    tempInput.id = 'inp_temp_' + id;
+    tempInput.setAttribute('data-min', item.min);
+    tempInput.setAttribute('data-max', item.max);
+    tempInput.setAttribute('data-type', type);
+    tempInput.setAttribute('data-index', index);
+    tempInput.oninput = function() { validateTemp(this); };
+    tempWrapper.appendChild(tempInput);
+
+    var statusSpan = document.createElement('span');
+    statusSpan.className = 'temp-status';
+    statusSpan.id = 'status_' + id;
+    tempWrapper.appendChild(statusSpan);
+    tempField.appendChild(tempWrapper);
+
+    var rangeBadge = document.createElement('div');
+    rangeBadge.className = 'range-badge';
+    rangeBadge.innerHTML = '<span class="dot"></span><span>Normal: ' + item.min + '°C to ' + item.max + '°C</span>';
+    tempField.appendChild(rangeBadge);
+
+    var oorBanner = document.createElement('div');
+    oorBanner.className = 'oor-banner';
+    oorBanner.id = 'oor_' + id;
+    oorBanner.innerHTML = '🚨 OUT OF RANGE — Notify Biomedical Engineering immediately!';
+    tempField.appendChild(oorBanner);
+
+    div.appendChild(tempField);
+
+    // Humidity field (room only)
+    if (item.hasHumidity) {
+      var humField = document.createElement('div');
+      humField.className = 'field';
+      humField.style.marginBottom = '0';
+
+      var humLabel = document.createElement('label');
+      humLabel.innerHTML = 'Humidity (%) <span class="req">*</span>';
+      humField.appendChild(humLabel);
+
+      var humWrapper = document.createElement('div');
+      humWrapper.className = 'temp-wrapper';
+
+      var humInput = document.createElement('input');
+      humInput.type = 'number';
+      humInput.step = '1';
+      humInput.inputMode = 'decimal';
+      humInput.min = '0';
+      humInput.max = '100';
+      humInput.placeholder = 'Enter humidity';
+      humInput.id = 'inp_hum_' + id;
+      humInput.oninput = function() { validateHumidity(this); };
+      humWrapper.appendChild(humInput);
+
+      var humStatus = document.createElement('span');
+      humStatus.className = 'temp-status';
+      humStatus.id = 'humstatus_' + id;
+      humWrapper.appendChild(humStatus);
+      humField.appendChild(humWrapper);
+
+      var humBadge = document.createElement('div');
+      humBadge.className = 'range-badge';
+      humBadge.innerHTML = '<span class="dot"></span><span>Normal: ≤ 60%</span>';
+      humField.appendChild(humBadge);
+
+      var humOor = document.createElement('div');
+      humOor.className = 'oor-banner';
+      humOor.id = 'humoor_' + id;
+      humOor.innerHTML = '🚨 HUMIDITY OUT OF RANGE — Check HVAC system!';
+      humField.appendChild(humOor);
+
+      div.appendChild(humField);
+    }
+
+    return div;
+  }
+
+  function validateTemp(input) {
+    var val  = parseFloat(input.value);
+    var min  = parseFloat(input.getAttribute('data-min'));
+    var max  = parseFloat(input.getAttribute('data-max'));
+    var type = input.getAttribute('data-type');
+    var idx  = input.getAttribute('data-index');
+    var id   = type + '_' + idx;
+    var statusEl = document.getElementById('status_' + id);
+    var oorEl    = document.getElementById('oor_' + id);
+
+    if (isNaN(val)) { input.className = ''; statusEl.textContent = ''; oorEl.classList.remove('show'); return; }
+    var ok = val >= min && val <= max;
+    input.className = ok ? 'temp-ok' : 'temp-warn';
+    statusEl.textContent = ok ? '✓' : '⚠️';
+    oorEl.classList.toggle('show', !ok);
+  }
+
+  function validateHumidity(input) {
+    var val  = parseFloat(input.value);
+    var type = input.getAttribute('data-type') || 'room';
+    var idx  = input.getAttribute('data-index') || '0';
+    var id   = 'room_0';
+    var statusEl = document.getElementById('humstatus_' + id);
+    var oorEl    = document.getElementById('humoor_' + id);
+    if (!statusEl) return;
+    if (isNaN(val)) { statusEl.textContent = ''; if(oorEl) oorEl.classList.remove('show'); return; }
+    var ok = val <= 60;
+    statusEl.textContent = ok ? '✓' : '⚠️';
+    if (oorEl) oorEl.classList.toggle('show', !ok);
+  }
+
+  function setToday() {
+    var t = new Date();
+    var el = document.getElementById('inp-date');
+    if (el) el.value = t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
+  }
+
+  // ── Submit ──
   function submitForm() {
-    const date    = document.getElementById('inp-date').value;
-    const staffId = document.getElementById('inp-staffid').value.trim();
-    const temp    = document.getElementById('inp-temp').value;
-    const hum     = document.getElementById('inp-humidity').value;
+    var staffId = document.getElementById('inp-staffid').value.trim();
+    var date    = document.getElementById('inp-date').value;
 
-    if (!selectedEquipment) return showStatus('error', 'Please select equipment.');
-    if (!selectedShift)     return showStatus('error', 'Please select a shift.');
-    if (!date)              return showStatus('error', 'Please enter the date.');
-    if (!staffId)           return showStatus('error', 'Please enter your Staff ID.');
-    if (temp === '')        return showStatus('error', 'Please enter the temperature reading.');
-    if (selectedEquipment.hasHumidity && hum === '') return showStatus('error', 'Please enter the humidity reading.');
+    if (!staffId)      return showStatus('error', 'Please enter your Staff ID.');
+    if (!selectedUnit) return showStatus('error', 'Please select a unit.');
+    if (!date)         return showStatus('error', 'Please enter the date.');
+    if (!selectedShift) return showStatus('error', 'Please select a shift.');
 
-    const btn = document.getElementById('btn-submit');
+    // Collect all readings
+    var payload = {
+      unit:       selectedUnit,
+      shift:      selectedShift,
+      date:       date,
+      staffId:    staffId,
+      staffEmail: currentUserEmail,
+      fridges:    [],
+      freezers:   []
+    };
+
+    var valid = true;
+
+    var unitConfig = CONFIG.filter(function(e) {
+      return e.unit === selectedUnit && e.active && e.shifts.indexOf(selectedShift) > -1;
+    });
+
+    var fridgeIndex = 0, freezerIndex = 0;
+
+    unitConfig.forEach(function(item) {
+      var type = item.type.toLowerCase();
+
+      if (type === 'room') {
+        var tempEl = document.getElementById('inp_temp_room_0');
+        var humEl  = document.getElementById('inp_hum_room_0');
+        if (!tempEl || tempEl.value === '') { valid = false; showStatus('error', 'Please enter Room Temperature.'); return; }
+        if (!humEl  || humEl.value  === '') { valid = false; showStatus('error', 'Please enter Humidity.'); return; }
+        payload.roomTemp = tempEl.value;
+        payload.humidity = humEl.value;
+
+      } else if (type === 'fridge') {
+        var fTempEl = document.getElementById('inp_temp_fridge_' + fridgeIndex);
+        if (!fTempEl || fTempEl.value === '') { valid = false; showStatus('error', 'Please enter temperature for ' + item.label + '.'); return; }
+        payload.fridges.push({ label: item.label, temp: fTempEl.value });
+        fridgeIndex++;
+
+      } else if (type === 'freezer') {
+        var zTempEl = document.getElementById('inp_temp_freezer_' + freezerIndex);
+        if (!zTempEl || zTempEl.value === '') { valid = false; showStatus('error', 'Please enter temperature for ' + item.label + '.'); return; }
+        payload.freezers.push({ label: item.label, temp: zTempEl.value });
+        freezerIndex++;
+      }
+    });
+
+    if (!valid) return;
+
+    var btn = document.getElementById('btn-submit');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Submitting...';
-
-    const payload = {
-      equipmentId:   selectedEquipment.id,
-      hospital:      selectedEquipment.hospital,
-      unit:          selectedEquipment.unit,
-      equipmentType: selectedEquipment.type,
-      displayLabel:  selectedEquipment.label,
-      shift:         selectedShift,
-      date:          date,
-      staffId:       staffId,
-      staffEmail:    currentUserEmail,
-      temperature:   temp,
-      humidity:      selectedEquipment.hasHumidity ? hum : 'N/A'
-    };
 
     fetch(APPS_SCRIPT_URL, {
       method: 'POST',
@@ -477,28 +613,26 @@
       btn.disabled = false;
       btn.innerHTML = 'Submit Reading';
       showStatus('success', '✓ Reading submitted successfully!');
-      resetForm();
+      resetReadings();
     })
-    .catch(function(err) {
+    .catch(function() {
       btn.disabled = false;
       btn.innerHTML = 'Submit Reading';
       showStatus('error', 'Submission failed. Please try again.');
     });
   }
 
-  function resetForm() {
-    document.getElementById('sel-unit').value = '';
-    document.getElementById('field-equipment').classList.add('hidden');
-    document.getElementById('sel-equipment').innerHTML = '<option value="">— Select equipment —</option>';
-    document.getElementById('inp-staffid').value = '';
-    document.getElementById('inp-temp').value = '';
-    document.getElementById('inp-humidity').value = '';
-    selectedEquipment = null; selectedShift = null;
-    hideFormCards(); setToday();
+  function resetReadings() {
+    document.getElementById('readings-container').innerHTML = '';
+    document.getElementById('card-readings').classList.add('hidden');
+    document.getElementById('card-submit').classList.add('hidden');
+    document.getElementById('pill-A1').classList.remove('selected');
+    document.getElementById('pill-B1').classList.remove('selected');
+    selectedShift = '';
   }
 
   function showStatus(type, msg) {
-    const box = document.getElementById('status-box');
+    var box = document.getElementById('status-box');
     box.className = 'status-box ' + type;
     box.textContent = msg;
     box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
