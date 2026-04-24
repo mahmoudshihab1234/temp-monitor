@@ -250,7 +250,7 @@
   // ── Config ──
   const CLIENT_ID      = '219fd90f-4c4b-474d-ae7d-a17f71ecc511';
   const TENANT_ID      = '1bbc68f6-abcf-4283-92d7-5bb0a7c3c84b';
-  const ALLOWED_DOMAIN = 'almoosahealth.com.sa';
+  const ALLOWED_DOMAINS = ['almoosahospital.com.sa', 'almoosahealth.com.sa'];
   const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE'; // ← update this after redeploying Apps Script
   const REDIRECT_URI   = 'https://mahmoudshihab1234.github.io/temp-monitor/';
 
@@ -282,7 +282,7 @@
         const payload = parseJwt(token);
         const email = (payload.preferred_username || payload.email || payload.upn || '').toLowerCase();
         history.replaceState(null, '', REDIRECT_URI);
-        if (email && email.endsWith('@' + ALLOWED_DOMAIN)) {
+        if (email && ALLOWED_DOMAINS.some(function(d) { return email.endsWith('@' + d); })) {
           currentUserEmail = email;
           showApp(email);
         } else {
