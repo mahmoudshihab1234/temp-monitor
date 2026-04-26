@@ -44,7 +44,7 @@
     background: rgba(255,255,255,0.95); border-radius: 7px;
     display: flex; align-items: center; justify-content: center; padding: 4px 10px;
   }
-  .header-logo-box img { max-height: 30px; max-width: 90px; display: block; }
+  .header-logo-box img { max-height: 36px; max-width: 110px; display: block; }
   .header-logo-box.text-mode { font-weight: 700; font-size: 14px; color: var(--teal-dark); letter-spacing: 0.5px; }
 
   .screen { display: none; }
@@ -53,8 +53,8 @@
   #denied-screen.active   { display: flex; flex-direction: column; align-items: center; padding: 60px 24px; text-align: center; }
   #app-screen.active      { display: block; }
 
-  .login-logo { width: 80px; height: 80px; background: var(--teal); border-radius: 24px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; box-shadow: 0 8px 28px rgba(10,124,110,0.3); overflow: hidden; }
-  .login-logo img { width: 60px; height: 60px; object-fit: contain; }
+  .login-logo { width: 110px; height: 110px; background: var(--teal); border-radius: 28px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; box-shadow: 0 8px 28px rgba(10,124,110,0.3); overflow: hidden; }
+  .login-logo img { width: 88px; height: 88px; object-fit: contain; }
   .login-logo-emoji { font-size: 40px; }
   .login-title { font-size: 24px; font-weight: 600; margin-bottom: 10px; }
   .login-sub { font-size: 14px; color: var(--muted); margin-bottom: 40px; line-height: 1.6; max-width: 300px; }
@@ -90,10 +90,10 @@
 
   /* Hospital pills — 3-col grid */
   .hospital-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .hospital-pill { padding: 10px 6px; border: 1.5px solid var(--border); border-radius: 8px; text-align: center; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; background: #fff; color: var(--muted); }
+  .hospital-pill { padding: 12px 6px; border: 1.5px solid var(--border); border-radius: 8px; text-align: center; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.15s; background: #fff; color: var(--muted); }
   .hospital-pill:active { transform: scale(0.97); }
   .hospital-pill.selected { background: var(--teal); border-color: var(--teal); color: white; }
-  .hospital-pill-sub { font-size: 9px; font-weight: 400; opacity: 0.7; display: block; margin-top: 2px; }
+  .hospital-pill-sub { font-size: 10px; font-weight: 400; opacity: 0.75; display: block; margin-top: 3px; line-height: 1.3; }
 
   /* Building pills */
   .building-group { display: flex; flex-direction: column; gap: 7px; }
@@ -209,9 +209,9 @@
     <div class="field">
       <label>Hospital <span class="req">*</span></label>
       <div class="hospital-grid">
-        <div class="hospital-pill" id="hpill-ASH" onclick="selectHospital('ASH')">ASH<span class="hospital-pill-sub">Specialist</span></div>
-        <div class="hospital-pill" id="hpill-ARH" onclick="selectHospital('ARH')">ARH<span class="hospital-pill-sub">Rehab</span></div>
-        <div class="hospital-pill" id="hpill-NKH" onclick="selectHospital('NKH')">NKH<span class="hospital-pill-sub">NKH</span></div>
+        <div class="hospital-pill" id="hpill-ASH" onclick="selectHospital('ASH')">ASH<span class="hospital-pill-sub">Almoosa Specialist Hospital</span></div>
+        <div class="hospital-pill" id="hpill-ARH" onclick="selectHospital('ARH')">ARH<span class="hospital-pill-sub">Almoosa Rehab Hospital</span></div>
+        <div class="hospital-pill" id="hpill-NKH" onclick="selectHospital('NKH')">NKH<span class="hospital-pill-sub">Nakheel Primary Clinic</span></div>
         <div class="hospital-pill" id="hpill-HFF" onclick="selectHospital('HFF')">HFF<span class="hospital-pill-sub">HFF</span></div>
         <div class="hospital-pill" id="hpill-AZZ" onclick="selectHospital('AZZ')">AZZ<span class="hospital-pill-sub">AZZ</span></div>
         <div class="hospital-pill" id="hpill-KHB" onclick="selectHospital('KHB')">KHB<span class="hospital-pill-sub">KHB</span></div>
@@ -475,9 +475,11 @@
   function getFallback(hospital) {
     if (hospital !== 'ARH') return [];
     var units = [
+      // Out Patient first
+      'B1 OPD','L0 OR','L0 Psychiatry','L2 OPD','L3 HDU',
+      // In Patient
       'L3 LTC','L4 RICU','L5 LTC','L6 LTC','L7 LTC','L8 LTC',
-      'L9 EMC','L10 Psychiatry','L11 PLTC','L12 Neuro','L13 Rehab','L14 Rehab',
-      'B1 OPD','L0 OR','L0 Psychiatry','L2 OPD','L3 HDU'
+      'L9 EMC','L10 Psychiatry','L11 PLTC','L12 Neuro','L13 Rehab','L14 Rehab'
     ];
     var rows = [];
     units.forEach(function(u){
