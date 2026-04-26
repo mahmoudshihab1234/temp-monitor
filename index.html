@@ -40,11 +40,11 @@
   .header-title { font-size: 17px; font-weight: 600; }
   .header-sub { font-size: 12px; opacity: 0.8; margin-top: 2px; }
   .header-logo-box {
-    flex-shrink: 0; height: 70px; min-width: 110px;
-    background: rgba(255,255,255,0.95); border-radius: 10px;
-    display: flex; align-items: center; justify-content: center; padding: 6px 14px;
+    flex-shrink: 0; height: 90px; min-width: 140px;
+    background: rgba(255,255,255,0.95); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; padding: 8px 16px;
   }
-  .header-logo-box img { max-height: 58px; max-width: 160px; display: block; }
+  .header-logo-box img { max-height: 74px; max-width: 190px; display: block; }
   .header-logo-box.text-mode { font-weight: 700; font-size: 14px; color: var(--teal-dark); letter-spacing: 0.5px; }
 
   .screen { display: none; }
@@ -90,10 +90,10 @@
 
   /* Hospital pills — 3-col grid */
   .hospital-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .hospital-pill { padding: 18px 8px; border: 1.5px solid var(--border); border-radius: 10px; text-align: center; font-size: 22px; font-weight: 700; cursor: pointer; transition: all 0.15s; background: #fff; color: var(--muted); }
+  .hospital-pill { padding: 20px 8px; border: 2px solid var(--border); border-radius: 10px; text-align: center; font-size: 24px; font-weight: 800; cursor: pointer; transition: all 0.15s; background: #fff; color: var(--text); }
   .hospital-pill:active { transform: scale(0.97); }
   .hospital-pill.selected { background: var(--teal); border-color: var(--teal); color: white; }
-  .hospital-pill-sub { font-size: 12px; font-weight: 500; opacity: 0.85; display: block; margin-top: 5px; line-height: 1.4; }
+  .hospital-pill-sub { font-size: 13px; font-weight: 500; color: var(--muted); display: block; margin-top: 6px; line-height: 1.4; }
 
   /* Building pills */
   .building-group { display: flex; flex-direction: column; gap: 7px; }
@@ -804,6 +804,6 @@
   }
 </script>
 
-<div class="version-badge">V2.3.4 · 2026-04-27</div>
+<div class="version-badge">V2.3.5 · 2026-04-27</div>
 </body>
 </html>
