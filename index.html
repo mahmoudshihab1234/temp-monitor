@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ARH Temperature Monitor</title>
+<title>AHG Temperature Monitor</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
@@ -30,41 +30,45 @@
 
   .header {
     background: var(--teal); color: white;
-    padding: 18px 20px 16px;
+    padding: 14px 16px;
     display: flex; align-items: center; gap: 12px;
     position: sticky; top: 0; z-index: 10;
     box-shadow: 0 2px 12px rgba(10,124,110,0.3);
   }
-  .header-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .header-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.18); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .header-text { flex: 1; min-width: 0; }
   .header-title { font-size: 16px; font-weight: 600; }
   .header-sub { font-size: 11px; opacity: 0.8; margin-top: 1px; }
+  .header-logo-box {
+    flex-shrink: 0; height: 38px; min-width: 54px;
+    background: rgba(255,255,255,0.95); border-radius: 7px;
+    display: flex; align-items: center; justify-content: center; padding: 4px 10px;
+  }
+  .header-logo-box img { max-height: 30px; max-width: 90px; display: block; }
+  .header-logo-box.text-mode { font-weight: 700; font-size: 14px; color: var(--teal-dark); letter-spacing: 0.5px; }
 
-  /* Screens */
   .screen { display: none; }
-  #login-screen.active { display: flex; flex-direction: column; align-items: center; padding: 60px 24px; text-align: center; }
+  #login-screen.active    { display: flex; flex-direction: column; align-items: center; padding: 60px 24px; text-align: center; }
   #processing-screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; gap: 16px; color: var(--muted); font-size: 14px; }
-  #denied-screen.active { display: flex; flex-direction: column; align-items: center; padding: 60px 24px; text-align: center; }
-  #app-screen.active { display: block; }
+  #denied-screen.active   { display: flex; flex-direction: column; align-items: center; padding: 60px 24px; text-align: center; }
+  #app-screen.active      { display: block; }
 
-  /* Login */
-  .login-logo { width: 80px; height: 80px; background: var(--teal); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 28px; box-shadow: 0 8px 28px rgba(10,124,110,0.3); }
+  .login-logo { width: 80px; height: 80px; background: var(--teal); border-radius: 24px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; box-shadow: 0 8px 28px rgba(10,124,110,0.3); overflow: hidden; }
+  .login-logo img { width: 60px; height: 60px; object-fit: contain; }
+  .login-logo-emoji { font-size: 40px; }
   .login-title { font-size: 24px; font-weight: 600; margin-bottom: 10px; }
   .login-sub { font-size: 14px; color: var(--muted); margin-bottom: 40px; line-height: 1.6; max-width: 300px; }
-  .btn-ms-login { display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 28px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text); cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,0.1); transition: box-shadow 0.15s, transform 0.1s; }
-  .btn-ms-login:active { transform: scale(0.98); }
+  .btn-ms-login { display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 28px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text); cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
 
-  /* Denied */
   .denied-icon { font-size: 60px; margin-bottom: 20px; }
   .denied-title { font-size: 22px; font-weight: 600; color: var(--warn); margin-bottom: 10px; }
   .denied-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 28px; }
   .btn-retry { padding: 12px 28px; background: var(--teal); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; }
 
-  /* Spinner */
   .big-spinner { width: 40px; height: 40px; border: 3px solid var(--teal-mid); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; }
   .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Cards */
   .card { background: var(--card); margin: 16px; border-radius: var(--radius); padding: 20px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); border: 1px solid var(--border); }
   .section-label { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
   .field { margin-bottom: 18px; }
@@ -84,41 +88,47 @@
 
   .verified-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; background: var(--ok-soft); color: var(--ok); border: 1px solid #9dd0b5; padding: 4px 10px; border-radius: 20px; margin-top: 6px; font-weight: 500; }
 
+  /* Hospital pills — 3-col grid */
+  .hospital-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .hospital-pill { padding: 10px 6px; border: 1.5px solid var(--border); border-radius: 8px; text-align: center; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; background: #fff; color: var(--muted); }
+  .hospital-pill:active { transform: scale(0.97); }
+  .hospital-pill.selected { background: var(--teal); border-color: var(--teal); color: white; }
+  .hospital-pill-sub { font-size: 9px; font-weight: 400; opacity: 0.7; display: block; margin-top: 2px; }
+
+  /* Building pills */
+  .building-group { display: flex; flex-direction: column; gap: 7px; }
+  .building-pill { padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; background: #fff; color: var(--muted); text-align: center; }
+  .building-pill:active { transform: scale(0.98); }
+  .building-pill.selected { background: var(--teal-soft); border-color: var(--teal); color: var(--teal-dark); font-weight: 600; }
+
   /* Shift pills */
   .shift-group { display: flex; gap: 10px; }
   .shift-pill { flex: 1; padding: 12px; border: 1.5px solid var(--border); border-radius: 8px; text-align: center; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.15s; background: #fff; color: var(--muted); }
   .shift-pill.selected { background: var(--teal); border-color: var(--teal); color: white; }
 
-  /* Reading fields */
+  /* Reading groups */
   .reading-group { background: var(--bg); border-radius: 10px; padding: 16px; margin-bottom: 14px; border: 1px solid var(--border); }
   .reading-group:last-child { margin-bottom: 0; }
   .reading-group-title { font-size: 12px; font-weight: 600; color: var(--teal-dark); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.8px; display: flex; align-items: center; gap: 6px; }
-  .reading-group-title .icon { font-size: 16px; }
 
+  /* Temperature select */
   .temp-wrapper { position: relative; }
-  .temp-status { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; }
-  input.temp-ok   { border-color: var(--ok);  background: var(--ok-soft); }
-  input.temp-warn { border-color: var(--warn); background: var(--warn-soft); }
+  .temp-status { position: absolute; right: 38px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; }
+  select.temp-ok   { border-color: var(--ok);  background-color: var(--ok-soft); }
+  select.temp-warn { border-color: var(--warn); background-color: var(--warn-soft); }
+
+  /* Custom temp input */
+  .custom-temp-wrap { margin-top: 8px; }
+  .custom-temp-wrap input { border-style: dashed; border-color: var(--teal-mid); background: var(--teal-soft); }
+  .custom-temp-wrap input:focus { border-style: solid; }
 
   .range-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-family: 'DM Mono', monospace; background: var(--teal-soft); color: var(--teal-dark); border: 1px solid var(--teal-mid); padding: 4px 10px; border-radius: 20px; margin-top: 6px; }
   .range-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
 
-  /* Out of range banner - DRAMATIC */
-  .oor-banner {
-    display: none;
-    background: var(--warn);
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-top: 8px;
-    font-size: 14px;
-    color: white;
-    font-weight: 600;
-    animation: pulse 1s infinite;
-  }
+  .oor-banner { display: none; background: var(--warn); border-radius: 8px; padding: 12px 16px; margin-top: 8px; font-size: 14px; color: white; font-weight: 600; animation: pulse 1s infinite; }
   .oor-banner.show { display: block; }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.8; } }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.8} }
 
-  /* Submit */
   .btn-submit { width: 100%; padding: 16px; background: var(--teal); color: white; border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600; cursor: pointer; transition: background 0.15s, transform 0.1s; letter-spacing: 0.3px; }
   .btn-submit:active { transform: scale(0.98); background: var(--teal-dark); }
   .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
@@ -127,28 +137,29 @@
   .status-box.success { display: block; background: var(--ok-soft); border: 1px solid #9dd0b5; color: var(--ok); }
   .status-box.error   { display: block; background: var(--warn-soft); border: 1px solid var(--warn-mid); color: var(--warn); }
 
-  .hidden { display: none !important; }
-
   .date-row { display: flex; gap: 8px; align-items: flex-end; }
   .date-row input { flex: 1; }
   .btn-today { padding: 11px 14px; background: var(--teal-soft); color: var(--teal-dark); border: 1.5px solid var(--teal-mid); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
 
-  .divider { height: 1px; background: var(--border); margin: 4px 0 16px; }
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="header-icon">🌡️</div>
-  <div>
+  <div class="header-text">
     <div class="header-title">Temperature Monitor</div>
-    <div class="header-sub">Almoosa Rehab Hospital · ARH</div>
+    <div class="header-sub">Almoosa Health Group · AHG</div>
   </div>
+  <div class="header-logo-box text-mode" id="header-logo-box">AHG</div>
 </div>
 
 <!-- Login -->
 <div id="login-screen" class="screen">
-  <div class="login-logo">🌡️</div>
+  <div class="login-logo" id="login-logo-box">
+    <span class="login-logo-emoji" id="login-emoji">🌡️</span>
+  </div>
   <div class="login-title">Staff Sign In</div>
   <div class="login-sub">Sign in with your Almoosa Microsoft account to access the temperature monitoring system.</div>
   <button class="btn-ms-login" onclick="signIn()">
@@ -178,30 +189,55 @@
 
 <!-- App -->
 <div id="app-screen" class="screen">
-
-  <!-- Step 1: Identity + Unit + Shift -->
   <div class="card">
     <div class="section-label">Step 1 — Who & Where</div>
 
+    <!-- Email -->
     <div class="field">
       <label>Signed in as</label>
       <input type="text" id="inp-email-display" readonly>
       <div class="verified-badge">🔒 Identity Verified via Microsoft</div>
     </div>
 
+    <!-- Staff ID -->
     <div class="field">
       <label for="inp-staffid">Staff ID <span class="req">*</span></label>
       <input type="text" id="inp-staffid" placeholder="e.g. 12345" inputmode="numeric">
     </div>
 
+    <!-- Hospital -->
     <div class="field">
+      <label>Hospital <span class="req">*</span></label>
+      <div class="hospital-grid">
+        <div class="hospital-pill" id="hpill-ASH" onclick="selectHospital('ASH')">ASH<span class="hospital-pill-sub">Specialist</span></div>
+        <div class="hospital-pill" id="hpill-ARH" onclick="selectHospital('ARH')">ARH<span class="hospital-pill-sub">Rehab</span></div>
+        <div class="hospital-pill" id="hpill-NKH" onclick="selectHospital('NKH')">NKH<span class="hospital-pill-sub">NKH</span></div>
+        <div class="hospital-pill" id="hpill-HFF" onclick="selectHospital('HFF')">HFF<span class="hospital-pill-sub">HFF</span></div>
+        <div class="hospital-pill" id="hpill-AZZ" onclick="selectHospital('AZZ')">AZZ<span class="hospital-pill-sub">AZZ</span></div>
+        <div class="hospital-pill" id="hpill-KHB" onclick="selectHospital('KHB')">KHB<span class="hospital-pill-sub">KHB</span></div>
+      </div>
+    </div>
+
+    <!-- Building (ASH only) -->
+    <div class="field hidden" id="field-building">
+      <label>Building <span class="req">*</span></label>
+      <div class="building-group">
+        <div class="building-pill" id="bpill-south"  onclick="selectBuilding('South Tower')">🏢 South Tower</div>
+        <div class="building-pill" id="bpill-main"   onclick="selectBuilding('Main Building')">🏥 Main Building</div>
+        <div class="building-pill" id="bpill-north"  onclick="selectBuilding('North Tower')">🏢 North Tower</div>
+      </div>
+    </div>
+
+    <!-- Unit -->
+    <div class="field hidden" id="field-unit">
       <label for="sel-unit">Unit <span class="req">*</span></label>
       <select id="sel-unit" onchange="onUnitChange()">
         <option value="">— Select unit —</option>
       </select>
     </div>
 
-    <div class="field">
+    <!-- Date -->
+    <div class="field hidden" id="field-date">
       <label for="inp-date">Date <span class="req">*</span></label>
       <div class="date-row">
         <input type="date" id="inp-date">
@@ -209,7 +245,8 @@
       </div>
     </div>
 
-    <div class="field">
+    <!-- Shift -->
+    <div class="field hidden" id="field-shift">
       <label>Shift <span class="req">*</span></label>
       <div class="shift-group">
         <div class="shift-pill" id="pill-A1" onclick="selectShift('A1')">☀️ A1 · Morning</div>
@@ -218,7 +255,7 @@
     </div>
   </div>
 
-  <!-- Step 2: Readings (built dynamically) -->
+  <!-- Step 2: Readings -->
   <div class="card hidden" id="card-readings">
     <div class="section-label">Step 2 — Readings</div>
     <div id="readings-container"></div>
@@ -230,35 +267,50 @@
   </div>
 
   <div class="status-box" id="status-box"></div>
-
 </div>
 
 <script>
+  // ─── CONSTANTS ────────────────────────────────────────────────────────────
   const CLIENT_ID       = '219fd90f-4c4b-474d-ae7d-a17f71ecc511';
   const TENANT_ID       = '1bbc68f6-abcf-4283-92d7-5bb0a7c3c84b';
   const ALLOWED_DOMAINS = ['almoosahospital.com.sa', 'almoosahealth.com.sa'];
   const REDIRECT_URI    = 'https://mahmoudshihab1234.github.io/temp-monitor/index.html';
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwS1tgBpY9CV2tBDWdQsp-UQGHVzrPnuRLGC2UqD-775wTKxpsZVSh0Hot9NhcUgvqJ/exec';
 
-  let currentUserEmail = '';
-  let CONFIG = [];
-  let selectedUnit  = '';
-  let selectedShift = '';
+  // Raw GitHub URL — blob URL does NOT work as an img src
+  const AHG_LOGO_URL = 'https://raw.githubusercontent.com/mahmoudshihab1234/temp-monitor/main/getsitelogo.png';
 
-  // ── On load ──
+  // Predefined temperature lists (high → low), matching the old Forms dropdowns.
+  // NOTE: Freezer list below is an approximation — confirm with clinical team.
+  const TEMP_LISTS = {
+    'Room':    [35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10],
+    'Fridge':  [10,9.4,8.9,8.3,8,7.2,6.7,6.1,5.5,5,4.4,3.9,3.3,2.8,2.2,2,1.7,1.1,0.5,0,-0.5],
+    'Freezer': [-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,-18,-19,-20,-21,-22,-23,-24,-25,-26,-27,-28,-29,-30]
+  };
+  // ─────────────────────────────────────────────────────────────────────────
+
+  let currentUserEmail = '';
+  let CONFIG           = [];
+  let selectedHospital = '';
+  let selectedBuilding = '';
+  let selectedUnit     = '';
+  let selectedShift    = '';
+
+  // ── On load ──────────────────────────────────────────────────────────────
   window.onload = function() {
+    applyLogo();
     var hash = window.location.hash;
     if (hash && hash.includes('id_token')) {
       showScreen('processing-screen');
-      var params  = parseHash(hash);
-      var token   = params['id_token'];
+      var params = parseHash(hash);
+      var token  = params['id_token'];
       if (token) {
         var payload = parseJwt(token);
         var email   = (payload.preferred_username || payload.email || payload.upn || '').toLowerCase();
         history.replaceState(null, '', REDIRECT_URI);
         if (isAllowed(email)) {
           currentUserEmail = email;
-          loadConfigAndShow(email);
+          initApp(email);
         } else {
           showScreen('denied-screen');
         }
@@ -271,8 +323,27 @@
     }
   };
 
+  function applyLogo() {
+    if (!AHG_LOGO_URL) return;
+
+    // Header
+    var hBox = document.getElementById('header-logo-box');
+    hBox.classList.remove('text-mode');
+    hBox.innerHTML = '<img src="' + AHG_LOGO_URL + '" alt="AHG" onerror="this.parentElement.classList.add(\'text-mode\');this.parentElement.textContent=\'AHG\';">';
+
+    // Login screen — replace emoji with logo img
+    var loginBox   = document.getElementById('login-logo-box');
+    var loginEmoji = document.getElementById('login-emoji');
+    var img = document.createElement('img');
+    img.src = AHG_LOGO_URL;
+    img.alt = 'AHG';
+    img.onerror = function() { this.remove(); loginEmoji.style.display = ''; };
+    loginEmoji.style.display = 'none';
+    loginBox.appendChild(img);
+  }
+
   function isAllowed(email) {
-    return ALLOWED_DOMAINS.some(function(d) { return email.endsWith('@' + d); });
+    return ALLOWED_DOMAINS.some(function(d){ return email.endsWith('@'+d); });
   }
 
   function signIn() {
@@ -286,84 +357,142 @@
   }
 
   function parseHash(hash) {
-    var result = {};
-    hash.replace(/^#/, '').split('&').forEach(function(part) {
-      var eq = part.indexOf('=');
-      if (eq > -1) result[decodeURIComponent(part.slice(0, eq))] = decodeURIComponent(part.slice(eq + 1));
+    var r = {};
+    hash.replace(/^#/,'').split('&').forEach(function(p){
+      var eq = p.indexOf('=');
+      if (eq>-1) r[decodeURIComponent(p.slice(0,eq))] = decodeURIComponent(p.slice(eq+1));
     });
-    return result;
+    return r;
   }
 
   function parseJwt(token) {
     try {
-      var base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-      return JSON.parse(decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      var b = token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+      return JSON.parse(decodeURIComponent(atob(b).split('').map(function(c){
+        return '%'+('00'+c.charCodeAt(0).toString(16)).slice(-2);
       }).join('')));
-    } catch(e) { return {}; }
+    } catch(e){ return {}; }
   }
 
   function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
-  }
-
-  // ── Load config from Apps Script ──
-  function loadConfigAndShow(email) {
-    fetch(APPS_SCRIPT_URL + '?action=getConfig&t=' + Date.now(), { mode: 'cors' })
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        CONFIG = data;
-        initApp(email);
-      })
-      .catch(function() {
-        // Use fallback if fetch fails
-        CONFIG = getFallbackConfig();
-        initApp(email);
-      });
-  }
-
-  function getFallbackConfig() {
-    return [
-      { unit: 'L3 LTC',  type: 'Room',   label: 'Medication Room',    min: 18, max: 25, shifts: ['A1'],      hasHumidity: true,  active: true },
-      { unit: 'L3 LTC',  type: 'Fridge', label: 'Medication Fridge',  min: 2,  max: 8,  shifts: ['A1','B1'], hasHumidity: false, active: true },
-      { unit: 'L4 RICU', type: 'Room',   label: 'Medication Room',    min: 18, max: 25, shifts: ['A1'],      hasHumidity: true,  active: true },
-      { unit: 'L4 RICU', type: 'Fridge', label: 'Medication Fridge',  min: 2,  max: 8,  shifts: ['A1','B1'], hasHumidity: false, active: true },
-      { unit: 'L5 LTC',  type: 'Room',   label: 'Medication Room',    min: 18, max: 25, shifts: ['A1'],      hasHumidity: true,  active: true },
-      { unit: 'L5 LTC',  type: 'Fridge', label: 'Medication Fridge',  min: 2,  max: 8,  shifts: ['A1','B1'], hasHumidity: false, active: true },
-      { unit: 'L6 LTC',  type: 'Room',   label: 'Medication Room',    min: 18, max: 25, shifts: ['A1'],      hasHumidity: true,  active: true },
-      { unit: 'L6 LTC',  type: 'Fridge', label: 'Medication Fridge',  min: 2,  max: 8,  shifts: ['A1','B1'], hasHumidity: false, active: true }
-    ];
   }
 
   function initApp(email) {
     document.getElementById('inp-email-display').value = email;
-    populateUnits();
     setToday();
     showScreen('app-screen');
   }
 
-  function populateUnits() {
-    var units = [];
-    CONFIG.filter(function(e) { return e.active; }).forEach(function(e) {
-      if (units.indexOf(e.unit) === -1) units.push(e.unit);
-    });
-    var sel = document.getElementById('sel-unit');
-    sel.innerHTML = '<option value="">— Select unit —</option>';
-    units.forEach(function(u) {
-      var opt = document.createElement('option');
-      opt.value = u; opt.textContent = u; sel.appendChild(opt);
-    });
+  // ── Hospital ──────────────────────────────────────────────────────────────
+  function selectHospital(code) {
+    selectedHospital = code;
+    selectedBuilding = '';
+    selectedUnit     = '';
+    selectedShift    = '';
+
+    document.querySelectorAll('.hospital-pill').forEach(function(p){ p.classList.remove('selected'); });
+    var pill = document.getElementById('hpill-' + code);
+    if (pill) pill.classList.add('selected');
+
+    resetFromUnit();
+    document.getElementById('field-unit').classList.add('hidden');
+    document.getElementById('field-date').classList.add('hidden');
+    document.getElementById('field-shift').classList.add('hidden');
+
+    if (code === 'ASH') {
+      document.getElementById('field-building').classList.remove('hidden');
+      document.querySelectorAll('.building-pill').forEach(function(p){ p.classList.remove('selected'); });
+    } else {
+      document.getElementById('field-building').classList.add('hidden');
+      fetchUnits(code, '');
+    }
   }
 
+  // ── Building (ASH) ────────────────────────────────────────────────────────
+  function selectBuilding(building) {
+    selectedBuilding = building;
+    selectedUnit     = '';
+    selectedShift    = '';
+    resetFromUnit();
+    document.getElementById('field-unit').classList.add('hidden');
+    document.getElementById('field-date').classList.add('hidden');
+    document.getElementById('field-shift').classList.add('hidden');
+
+    document.querySelectorAll('.building-pill').forEach(function(p){
+      p.classList.toggle('selected', p.textContent.trim().indexOf(building) > -1);
+    });
+
+    fetchUnits(selectedHospital, building);
+  }
+
+  // ── Load units ────────────────────────────────────────────────────────────
+  function fetchUnits(hospital, building) {
+    var sel = document.getElementById('sel-unit');
+    sel.innerHTML = '<option value="">Loading...</option>';
+    sel.disabled  = true;
+    document.getElementById('field-unit').classList.remove('hidden');
+
+    var url = APPS_SCRIPT_URL + '?action=getConfig&hospital=' + encodeURIComponent(hospital);
+    if (building) url += '&building=' + encodeURIComponent(building);
+    url += '&t=' + Date.now();
+
+    fetch(url, { mode: 'cors' })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        CONFIG = (Array.isArray(data) && data.length > 0) ? data : getFallback(hospital);
+        populateUnits();
+      })
+      .catch(function(){
+        CONFIG = getFallback(hospital);
+        populateUnits();
+      });
+  }
+
+  function populateUnits() {
+    var units = [];
+    CONFIG.filter(function(e){ return e.active; }).forEach(function(e){
+      if (units.indexOf(e.unit) === -1) units.push(e.unit);
+    });
+
+    var sel = document.getElementById('sel-unit');
+    sel.disabled = false;
+
+    if (units.length === 0) {
+      sel.innerHTML = '<option value="">— No units configured yet —</option>';
+    } else {
+      sel.innerHTML = '<option value="">— Select unit —</option>';
+      units.forEach(function(u){
+        var o = document.createElement('option');
+        o.value = u; o.textContent = u; sel.appendChild(o);
+      });
+      document.getElementById('field-date').classList.remove('hidden');
+    }
+  }
+
+  // Fallback when Apps Script is unreachable — ARH only (confirmed data)
+  function getFallback(hospital) {
+    if (hospital !== 'ARH') return [];
+    var units = [
+      'L3 LTC','L4 RICU','L5 LTC','L6 LTC','L7 LTC','L8 LTC',
+      'L9 EMC','L10 Psychiatry','L11 PLTC','L12 Neuro','L13 Rehab','L14 Rehab',
+      'B1 OPD','L0 OR','L0 Psychiatry','L2 OPD','L3 HDU'
+    ];
+    var rows = [];
+    units.forEach(function(u){
+      rows.push({ unit:u, type:'Room',   label:'Room Temperature',  equipmentFile:'Room_Temperature',  min:18, max:25, shifts:['A1'],      hasHumidity:true,  active:true });
+      rows.push({ unit:u, type:'Fridge', label:'Medication Fridge', equipmentFile:'Medication_Fridge', min:2,  max:8,  shifts:['A1','B1'], hasHumidity:false, active:true });
+    });
+    return rows;
+  }
+
+  // ── Unit / Shift ──────────────────────────────────────────────────────────
   function onUnitChange() {
     selectedUnit  = document.getElementById('sel-unit').value;
     selectedShift = '';
-    document.getElementById('pill-A1').classList.remove('selected');
-    document.getElementById('pill-B1').classList.remove('selected');
-    document.getElementById('card-readings').classList.add('hidden');
-    document.getElementById('card-submit').classList.add('hidden');
-    document.getElementById('status-box').className = 'status-box';
+    resetFromShift();
+    document.getElementById('field-shift').classList.toggle('hidden', !selectedUnit);
   }
 
   function selectShift(shift) {
@@ -373,49 +502,57 @@
     if (selectedUnit) buildReadingsForm();
   }
 
-  // ── Build the readings form dynamically ──
+  function resetFromUnit() {
+    selectedUnit  = '';
+    selectedShift = '';
+    CONFIG        = [];
+    document.getElementById('sel-unit').innerHTML = '<option value="">— Select unit —</option>';
+    resetFromShift();
+  }
+
+  function resetFromShift() {
+    selectedShift = '';
+    document.getElementById('pill-A1').classList.remove('selected');
+    document.getElementById('pill-B1').classList.remove('selected');
+    document.getElementById('card-readings').classList.add('hidden');
+    document.getElementById('card-submit').classList.add('hidden');
+    document.getElementById('status-box').className = 'status-box';
+    document.getElementById('readings-container').innerHTML = '';
+  }
+
+  // ── Build readings form ───────────────────────────────────────────────────
   function buildReadingsForm() {
     var container = document.getElementById('readings-container');
     container.innerHTML = '';
 
-    var unitConfig = CONFIG.filter(function(e) {
+    var unitCfg = CONFIG.filter(function(e){
       return e.unit === selectedUnit && e.active && e.shifts.indexOf(selectedShift) > -1;
     });
 
-    var roomItems    = unitConfig.filter(function(e) { return e.type.toLowerCase() === 'room'; });
-    var fridgeItems  = unitConfig.filter(function(e) { return e.type.toLowerCase() === 'fridge'; });
-    var freezerItems = unitConfig.filter(function(e) { return e.type.toLowerCase() === 'freezer'; });
+    var rooms    = unitCfg.filter(function(e){ return e.type.toLowerCase() === 'room'; });
+    var fridges  = unitCfg.filter(function(e){ return e.type.toLowerCase() === 'fridge'; });
+    var freezers = unitCfg.filter(function(e){ return e.type.toLowerCase() === 'freezer'; });
 
-    // Room temp (A1 only)
-    roomItems.forEach(function(item) {
-      container.appendChild(buildReadingGroup('🌡️', item.label, 'room', 0, item));
-    });
-
-    // Fridges
-    fridgeItems.forEach(function(item, i) {
-      container.appendChild(buildReadingGroup('🧊', item.label, 'fridge', i, item));
-    });
-
-    // Freezers
-    freezerItems.forEach(function(item, i) {
-      container.appendChild(buildReadingGroup('❄️', item.label, 'freezer', i, item));
-    });
+    rooms.forEach(function(item,i)   { container.appendChild(buildGroup('🌡️', item, 'room',    i)); });
+    fridges.forEach(function(item,i) { container.appendChild(buildGroup('🧊', item, 'fridge',  i)); });
+    freezers.forEach(function(item,i){ container.appendChild(buildGroup('❄️', item, 'freezer', i)); });
 
     document.getElementById('card-readings').classList.remove('hidden');
     document.getElementById('card-submit').classList.remove('hidden');
   }
 
-  function buildReadingGroup(icon, label, type, index, item) {
-    var id = type + '_' + index;
+  function buildGroup(icon, item, type, index) {
+    var id  = type + '_' + index;
     var div = document.createElement('div');
     div.className = 'reading-group';
 
-    var titleDiv = document.createElement('div');
-    titleDiv.className = 'reading-group-title';
-    titleDiv.innerHTML = '<span class="icon">' + icon + '</span>' + label;
-    div.appendChild(titleDiv);
+    // Title
+    var title = document.createElement('div');
+    title.className = 'reading-group-title';
+    title.innerHTML = icon + ' ' + item.label;
+    div.appendChild(title);
 
-    // Temperature field
+    // ── Temperature field ──
     var tempField = document.createElement('div');
     tempField.className = 'field';
     tempField.style.marginBottom = item.hasHumidity ? '14px' : '0';
@@ -424,70 +561,88 @@
     tempLabel.innerHTML = 'Temperature (°C) <span class="req">*</span>';
     tempField.appendChild(tempLabel);
 
-    var tempWrapper = document.createElement('div');
-    tempWrapper.className = 'temp-wrapper';
+    var wrapper = document.createElement('div');
+    wrapper.className = 'temp-wrapper';
 
-    var tempInput = document.createElement('input');
-    tempInput.type = 'number';
-    tempInput.step = '0.1';
-    tempInput.inputMode = 'decimal';
-    tempInput.placeholder = 'Enter temperature';
-    tempInput.id = 'inp_temp_' + id;
-    tempInput.setAttribute('data-min', item.min);
-    tempInput.setAttribute('data-max', item.max);
-    tempInput.setAttribute('data-type', type);
-    tempInput.setAttribute('data-index', index);
-    tempInput.oninput = function() { validateTemp(this); };
-    tempWrapper.appendChild(tempInput);
+    // Select
+    var sel = document.createElement('select');
+    sel.id  = 'inp_temp_' + id;
+    sel.setAttribute('data-min', item.min);
+    sel.setAttribute('data-max', item.max);
+
+    var defOpt = document.createElement('option');
+    defOpt.value = ''; defOpt.textContent = '— Select temperature —';
+    sel.appendChild(defOpt);
+
+    var list = TEMP_LISTS[item.type] || TEMP_LISTS['Fridge'];
+    list.forEach(function(t){
+      var opt = document.createElement('option');
+      opt.value = t;
+      var ok = t >= item.min && t <= item.max;
+      opt.textContent = t + '°C' + (ok ? '' : ' ⚠️');
+      sel.appendChild(opt);
+    });
+
+    var custOpt = document.createElement('option');
+    custOpt.value = 'custom'; custOpt.textContent = '✏️ Custom value...';
+    sel.appendChild(custOpt);
+
+    sel.onchange = function(){ onTempSelect(this, id, item.min, item.max); };
+    wrapper.appendChild(sel);
 
     var statusSpan = document.createElement('span');
-    statusSpan.className = 'temp-status';
-    statusSpan.id = 'status_' + id;
-    tempWrapper.appendChild(statusSpan);
-    tempField.appendChild(tempWrapper);
+    statusSpan.className = 'temp-status'; statusSpan.id = 'status_' + id;
+    wrapper.appendChild(statusSpan);
+    tempField.appendChild(wrapper);
 
-    var rangeBadge = document.createElement('div');
-    rangeBadge.className = 'range-badge';
-    rangeBadge.innerHTML = '<span class="dot"></span><span>Normal: ' + item.min + '°C to ' + item.max + '°C</span>';
-    tempField.appendChild(rangeBadge);
+    // Custom input (hidden until "Custom" chosen)
+    var customWrap = document.createElement('div');
+    customWrap.className = 'custom-temp-wrap hidden'; customWrap.id = 'cwrap_' + id;
+    var customIn = document.createElement('input');
+    customIn.type = 'number'; customIn.step = '0.1'; customIn.inputMode = 'decimal';
+    customIn.placeholder = 'Enter exact temperature...';
+    customIn.id = 'inp_temp_' + id + '_custom';
+    customIn.oninput = function(){ validateCustom(this, id, item.min, item.max); };
+    customWrap.appendChild(customIn);
+    tempField.appendChild(customWrap);
 
-    var oorBanner = document.createElement('div');
-    oorBanner.className = 'oor-banner';
-    oorBanner.id = 'oor_' + id;
-    oorBanner.innerHTML = '🚨 OUT OF RANGE — Notify Biomedical Engineering immediately!';
-    tempField.appendChild(oorBanner);
+    // Range badge
+    var badge = document.createElement('div');
+    badge.className = 'range-badge';
+    badge.innerHTML = '<span class="dot"></span><span>Normal: ' + item.min + '°C – ' + item.max + '°C</span>';
+    tempField.appendChild(badge);
+
+    // OOR banner
+    var oor = document.createElement('div');
+    oor.className = 'oor-banner'; oor.id = 'oor_' + id;
+    oor.innerHTML = '🚨 OUT OF RANGE — Notify Biomedical Engineering immediately!';
+    tempField.appendChild(oor);
 
     div.appendChild(tempField);
 
-    // Humidity field (room only)
+    // ── Humidity (Room only) ──
     if (item.hasHumidity) {
       var humField = document.createElement('div');
-      humField.className = 'field';
-      humField.style.marginBottom = '0';
+      humField.className = 'field'; humField.style.marginBottom = '0';
 
       var humLabel = document.createElement('label');
       humLabel.innerHTML = 'Humidity (%) <span class="req">*</span>';
       humField.appendChild(humLabel);
 
-      var humWrapper = document.createElement('div');
-      humWrapper.className = 'temp-wrapper';
+      var humWrap = document.createElement('div');
+      humWrap.className = 'temp-wrapper';
 
-      var humInput = document.createElement('input');
-      humInput.type = 'number';
-      humInput.step = '1';
-      humInput.inputMode = 'decimal';
-      humInput.min = '0';
-      humInput.max = '100';
-      humInput.placeholder = 'Enter humidity';
-      humInput.id = 'inp_hum_' + id;
-      humInput.oninput = function() { validateHumidity(this); };
-      humWrapper.appendChild(humInput);
+      var humIn = document.createElement('input');
+      humIn.type = 'number'; humIn.step = '1'; humIn.inputMode = 'decimal';
+      humIn.min = '0'; humIn.max = '100'; humIn.placeholder = 'Enter humidity %';
+      humIn.id = 'inp_hum_' + id;
+      humIn.oninput = function(){ validateHum(this, id); };
+      humWrap.appendChild(humIn);
 
-      var humStatus = document.createElement('span');
-      humStatus.className = 'temp-status';
-      humStatus.id = 'humstatus_' + id;
-      humWrapper.appendChild(humStatus);
-      humField.appendChild(humWrapper);
+      var humSt = document.createElement('span');
+      humSt.className = 'temp-status'; humSt.id = 'humstatus_' + id;
+      humWrap.appendChild(humSt);
+      humField.appendChild(humWrap);
 
       var humBadge = document.createElement('div');
       humBadge.className = 'range-badge';
@@ -495,8 +650,7 @@
       humField.appendChild(humBadge);
 
       var humOor = document.createElement('div');
-      humOor.className = 'oor-banner';
-      humOor.id = 'humoor_' + id;
+      humOor.className = 'oor-banner'; humOor.id = 'humoor_' + id;
       humOor.innerHTML = '🚨 HUMIDITY OUT OF RANGE — Check HVAC system!';
       humField.appendChild(humOor);
 
@@ -506,135 +660,134 @@
     return div;
   }
 
-  function validateTemp(input) {
-    var val  = parseFloat(input.value);
-    var min  = parseFloat(input.getAttribute('data-min'));
-    var max  = parseFloat(input.getAttribute('data-max'));
-    var type = input.getAttribute('data-type');
-    var idx  = input.getAttribute('data-index');
-    var id   = type + '_' + idx;
-    var statusEl = document.getElementById('status_' + id);
-    var oorEl    = document.getElementById('oor_' + id);
+  // ── Validation ────────────────────────────────────────────────────────────
+  function onTempSelect(sel, id, min, max) {
+    var cWrap  = document.getElementById('cwrap_' + id);
+    var status = document.getElementById('status_' + id);
+    var oor    = document.getElementById('oor_' + id);
 
-    if (isNaN(val)) { input.className = ''; statusEl.textContent = ''; oorEl.classList.remove('show'); return; }
-    var ok = val >= min && val <= max;
-    input.className = ok ? 'temp-ok' : 'temp-warn';
-    statusEl.textContent = ok ? '✓' : '⚠️';
-    oorEl.classList.toggle('show', !ok);
+    if (sel.value === 'custom') {
+      cWrap.classList.remove('hidden');
+      sel.className = ''; status.textContent = ''; oor.classList.remove('show');
+      document.getElementById('inp_temp_' + id + '_custom').focus();
+      return;
+    }
+    cWrap.classList.add('hidden');
+    if (sel.value === '') { sel.className = ''; status.textContent = ''; oor.classList.remove('show'); return; }
+    var ok = parseFloat(sel.value) >= min && parseFloat(sel.value) <= max;
+    sel.className    = ok ? 'temp-ok' : 'temp-warn';
+    status.textContent = ok ? '✓' : '⚠️';
+    oor.classList.toggle('show', !ok);
   }
 
-  function validateHumidity(input) {
-    var val  = parseFloat(input.value);
-    var type = input.getAttribute('data-type') || 'room';
-    var idx  = input.getAttribute('data-index') || '0';
-    var id   = 'room_0';
-    var statusEl = document.getElementById('humstatus_' + id);
-    var oorEl    = document.getElementById('humoor_' + id);
-    if (!statusEl) return;
-    if (isNaN(val)) { statusEl.textContent = ''; if(oorEl) oorEl.classList.remove('show'); return; }
+  function validateCustom(input, id, min, max) {
+    var status = document.getElementById('status_' + id);
+    var oor    = document.getElementById('oor_' + id);
+    var val    = parseFloat(input.value);
+    if (isNaN(val)) { status.textContent = ''; oor.classList.remove('show'); return; }
+    var ok = val >= min && val <= max;
+    status.textContent = ok ? '✓' : '⚠️';
+    oor.classList.toggle('show', !ok);
+  }
+
+  function validateHum(input, id) {
+    var st  = document.getElementById('humstatus_' + id);
+    var oor = document.getElementById('humoor_' + id);
+    var val = parseFloat(input.value);
+    if (isNaN(val)) { if(st) st.textContent=''; if(oor) oor.classList.remove('show'); return; }
     var ok = val <= 60;
-    statusEl.textContent = ok ? '✓' : '⚠️';
-    if (oorEl) oorEl.classList.toggle('show', !ok);
+    if(st) st.textContent = ok ? '✓' : '⚠️';
+    if(oor) oor.classList.toggle('show', !ok);
+  }
+
+  function getTempValue(type, index) {
+    var id  = type + '_' + index;
+    var sel = document.getElementById('inp_temp_' + id);
+    if (!sel) return '';
+    if (sel.value === 'custom') {
+      var ci = document.getElementById('inp_temp_' + id + '_custom');
+      return ci ? ci.value.trim() : '';
+    }
+    return sel.value;
   }
 
   function setToday() {
-    var t = new Date();
-    var el = document.getElementById('inp-date');
+    var t = new Date(), el = document.getElementById('inp-date');
     if (el) el.value = t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
   }
 
-  // ── Submit ──
+  // ── Submit ────────────────────────────────────────────────────────────────
   function submitForm() {
     var staffId = document.getElementById('inp-staffid').value.trim();
     var date    = document.getElementById('inp-date').value;
 
-    if (!staffId)      return showStatus('error', 'Please enter your Staff ID.');
-    if (!selectedUnit) return showStatus('error', 'Please select a unit.');
-    if (!date)         return showStatus('error', 'Please enter the date.');
-    if (!selectedShift) return showStatus('error', 'Please select a shift.');
+    if (!staffId)         return showStatus('error', 'Please enter your Staff ID.');
+    if (!selectedHospital) return showStatus('error', 'Please select a hospital.');
+    if (selectedHospital === 'ASH' && !selectedBuilding)
+                          return showStatus('error', 'Please select a building.');
+    if (!selectedUnit)    return showStatus('error', 'Please select a unit.');
+    if (!date)            return showStatus('error', 'Please enter the date.');
+    if (!selectedShift)   return showStatus('error', 'Please select a shift.');
 
-    // Collect all readings
     var payload = {
-      unit:       selectedUnit,
-      shift:      selectedShift,
-      date:       date,
-      staffId:    staffId,
-      staffEmail: currentUserEmail,
-      fridges:    [],
-      freezers:   []
+      unit: selectedUnit, hospital: selectedHospital, building: selectedBuilding,
+      shift: selectedShift, date: date, staffId: staffId, staffEmail: currentUserEmail,
+      fridges: [], freezers: []
     };
 
-    var valid = true;
-
-    var unitConfig = CONFIG.filter(function(e) {
+    var valid   = true;
+    var unitCfg = CONFIG.filter(function(e){
       return e.unit === selectedUnit && e.active && e.shifts.indexOf(selectedShift) > -1;
     });
+    var fi = 0, zi = 0;
 
-    var fridgeIndex = 0, freezerIndex = 0;
-
-    unitConfig.forEach(function(item) {
+    for (var i = 0; i < unitCfg.length; i++) {
+      var item = unitCfg[i];
       var type = item.type.toLowerCase();
 
       if (type === 'room') {
-        var tempEl = document.getElementById('inp_temp_room_0');
-        var humEl  = document.getElementById('inp_hum_room_0');
-        if (!tempEl || tempEl.value === '') { valid = false; showStatus('error', 'Please enter Room Temperature.'); return; }
-        if (!humEl  || humEl.value  === '') { valid = false; showStatus('error', 'Please enter Humidity.'); return; }
-        payload.roomTemp = tempEl.value;
-        payload.humidity = humEl.value;
+        var tVal = getTempValue('room', 0);
+        var hEl  = document.getElementById('inp_hum_room_0');
+        if (!tVal) { showStatus('error', 'Please select or enter Room Temperature.'); valid=false; break; }
+        if (!hEl || !hEl.value) { showStatus('error', 'Please enter Humidity.'); valid=false; break; }
+        payload.roomTemp = tVal; payload.humidity = hEl.value;
 
       } else if (type === 'fridge') {
-        var fTempEl = document.getElementById('inp_temp_fridge_' + fridgeIndex);
-        if (!fTempEl || fTempEl.value === '') { valid = false; showStatus('error', 'Please enter temperature for ' + item.label + '.'); return; }
-        payload.fridges.push({ label: item.label, temp: fTempEl.value });
-        fridgeIndex++;
+        var fVal = getTempValue('fridge', fi);
+        if (!fVal) { showStatus('error', 'Please enter temperature for ' + item.label + '.'); valid=false; break; }
+        payload.fridges.push({ label: item.equipmentFile, temp: fVal }); fi++;
 
       } else if (type === 'freezer') {
-        var zTempEl = document.getElementById('inp_temp_freezer_' + freezerIndex);
-        if (!zTempEl || zTempEl.value === '') { valid = false; showStatus('error', 'Please enter temperature for ' + item.label + '.'); return; }
-        payload.freezers.push({ label: item.label, temp: zTempEl.value });
-        freezerIndex++;
+        var zVal = getTempValue('freezer', zi);
+        if (!zVal) { showStatus('error', 'Please enter temperature for ' + item.label + '.'); valid=false; break; }
+        payload.freezers.push({ label: item.equipmentFile, temp: zVal }); zi++;
       }
-    });
+    }
 
     if (!valid) return;
 
     var btn = document.getElementById('btn-submit');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Submitting...';
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Submitting...';
 
     fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
-    .then(function() {
-      btn.disabled = false;
-      btn.innerHTML = 'Submit Reading';
+    .then(function(){
+      btn.disabled = false; btn.innerHTML = 'Submit Reading';
       showStatus('success', '✓ Reading submitted successfully!');
-      resetReadings();
+      resetFromShift();
     })
-    .catch(function() {
-      btn.disabled = false;
-      btn.innerHTML = 'Submit Reading';
+    .catch(function(){
+      btn.disabled = false; btn.innerHTML = 'Submit Reading';
       showStatus('error', 'Submission failed. Please try again.');
     });
   }
 
-  function resetReadings() {
-    document.getElementById('readings-container').innerHTML = '';
-    document.getElementById('card-readings').classList.add('hidden');
-    document.getElementById('card-submit').classList.add('hidden');
-    document.getElementById('pill-A1').classList.remove('selected');
-    document.getElementById('pill-B1').classList.remove('selected');
-    selectedShift = '';
-  }
-
   function showStatus(type, msg) {
     var box = document.getElementById('status-box');
-    box.className = 'status-box ' + type;
-    box.textContent = msg;
+    box.className = 'status-box ' + type; box.textContent = msg;
     box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 </script>
