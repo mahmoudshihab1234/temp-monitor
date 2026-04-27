@@ -451,11 +451,11 @@
     fetch(url, { mode: 'cors' })
       .then(function(r){ return r.json(); })
       .then(function(data){
-        CONFIG = (Array.isArray(data) && data.length > 0) ? data : getFallback(hospital);
+        CONFIG = Array.isArray(data) ? data : [];
         populateUnits();
       })
       .catch(function(){
-        CONFIG = getFallback(hospital);
+        CONFIG = [];
         populateUnits();
       });
   }
@@ -481,23 +481,7 @@
     }
   }
 
-  // Fallback when Apps Script is unreachable — ARH only (confirmed data)
-  function getFallback(hospital) {
-    if (hospital !== 'ARH') return [];
-    var units = [
-      // Out Patient first
-      'B1 OPD','L0 OR','L0 Psychiatry','L2 OPD','L3 HDU',
-      // In Patient
-      'L3 LTC','L4 RICU','L5 LTC','L6 LTC','L7 LTC','L8 LTC',
-      'L9 EMC','L10 Psychiatry','L11 PLTC','L12 Neuro','L13 Rehab','L14 Rehab'
-    ];
-    var rows = [];
-    units.forEach(function(u){
-      rows.push({ unit:u, type:'Room',   label:'Room Temperature',  equipmentFile:'Room_Temperature',  min:18, max:25, shifts:['A1'],      hasHumidity:true,  active:true });
-      rows.push({ unit:u, type:'Fridge', label:'Medication Fridge', equipmentFile:'Medication_Fridge', min:2,  max:8,  shifts:['A1','B1'], hasHumidity:false, active:true });
-    });
-    return rows;
-  }
+
 
   // ── Unit / Shift ──────────────────────────────────────────────────────────
   function onUnitChange() {
@@ -804,6 +788,6 @@
   }
 </script>
 
-<div class="version-badge">V2.3.5 · 2026-04-27</div>
+<div class="version-badge">V2.3.7 · 2026-04-27</div>
 </body>
 </html>
